@@ -1,0 +1,9 @@
+httpx
+pytest-playwright
+python-dotenv
+beautifulsoup4
+requests
+gspread
+oauth2client
+nest_asyncio
+speedtest-cli
