@@ -29,7 +29,7 @@ def is_bonasa_window(now: datetime) -> bool:
 
 def is_coin_time(now: datetime) -> bool:
     """Run coin tasks hourly starting at 11:00 AM"""
-    return now.hour >= 11 and now.minute == 55
+    return now.hour >= 11 and now.minute == 15
 # =========================================================
 # RETRY HELPER
 # =========================================================
