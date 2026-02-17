@@ -25,7 +25,7 @@ current_date_readable = None
 
 def is_bonasa_window(now: datetime) -> bool:
     """Check Bonasa between 10:30 and 10:50 inclusive"""
-    return now.hour == 10 and 30 <= now.minute <= 55 and not BONASA_UPDATED_TODAY
+    return now.hour == 11 and 0 <= now.minute <= 20 and not BONASA_UPDATED_TODAY
 
 def is_coin_time(now: datetime) -> bool:
     """Run coin tasks hourly starting at 11:00 AM"""
