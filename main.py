@@ -13,7 +13,7 @@ from utils.spreadsheet import (
     read_and_calculate_bonasa_sheet_tab,
     save_effective_conversion
 )
-from services.tg_bot_service import send_telegram_alert, send_telegram_logs
+# from services.tg_bot_service import send_telegram_alert, send_telegram_logs
 
 BONASA_UPDATED_TODAY = False
 BONASA_ALERT_SENT = False  # new flag to avoid multiple alerts per 5-min block
@@ -92,21 +92,21 @@ async def run_tasks():
                 BONASA_ALERT_SENT = False  # reset alert flag if updated
                 logger.success(f"(SHEET UPDATED) - Bonasa RATE: {effective_conversion_rate} updated successfully")
 
-                send_telegram_logs(
-                    "<b>(SERVER)Automation Success</b>\n"
-                    f"Date: {now.strftime("%B %d, %Y %I:%M %p")}\n"
-                    "Bonasa automation completed successfully."
-                )
+                # send_telegram_logs(
+                #     "<b>(SERVER)Automation Success</b>\n"
+                #     f"Date: {now.strftime("%B %d, %Y %I:%M %p")}\n"
+                #     "Bonasa automation completed successfully."
+                # )
                     
             else:
                 # DATA MISSING → send alert every 5 minutes
                 if now.minute % 5 == 0 and not BONASA_ALERT_SENT:
-                    current_time = now.strftime("%H:%M")
-                    send_telegram_alert(
-                        "<b>(SERVER)BONASA NOT UPDATED</b>\n"
-                        f"Date: {rows[0]['Date']} {current_time}\n"
-                        "Purchase Rate not yet updated."
-                    )
+                    # current_time = now.strftime("%H:%M")
+                    # send_telegram_alert(
+                    #     "<b>(SERVER)BONASA NOT UPDATED</b>\n"
+                    #     f"Date: {rows[0]['Date']} {current_time}\n"
+                    #     "Purchase Rate not yet updated."
+                    # )
                     logger.warn("Telegram alert sent")
                     BONASA_ALERT_SENT = True
                 elif now.minute % 5 != 0:
@@ -134,11 +134,11 @@ async def run_tasks():
     binance_data = await retry_async(get_btc_eth_prices, retries=5, min_wait=2, max_wait=5, logger=logger)
     if binance_data.get("status") != "success":
         logger.error("Binance price fetch failed")
-        send_telegram_logs(
-            "<b>(SERVER)Automation Failed</b>\n"
-            f"Date: {now.strftime("%B %d, %Y %I:%M %p")}\n"
-            "Binance price fetch failed.\n"
-        )
+        # send_telegram_logs(
+        #     "<b>(SERVER)Automation Failed</b>\n"
+        #     f"Date: {now.strftime("%B %d, %Y %I:%M %p")}\n"
+        #     "Binance price fetch failed.\n"
+        # )
         return
 
     logger.success(f"→ Binance Data: {binance_data['data']}")
@@ -147,11 +147,11 @@ async def run_tasks():
     xe_data = await retry_async(fetch_xe_rates, retries=5, min_wait=2, max_wait=5, logger=logger)
     if xe_data.get("status") != "success":
         logger.error("XE rate fetch failed")
-        send_telegram_logs(
-            "<b>(SERVER)Automation Failed</b>\n"
-            f"Date: {now.strftime("%B %d, %Y %I:%M %p")}\n"
-            "XE rate fetch failed.\n"
-        )
+        # send_telegram_logs(
+        #     "<b>(SERVER)Automation Failed</b>\n"
+        #     f"Date: {now.strftime("%B %d, %Y %I:%M %p")}\n"
+        #     "XE rate fetch failed.\n"
+        # )
         return
 
     logger.success("→ XE Rates fetched")
@@ -164,11 +164,11 @@ async def run_tasks():
     service = BOScrapperService()
     if not service.test_accessible(logger):
         logger.warn("VPN REQUIRED TO ACCESS BO")
-        send_telegram_logs(
-            "<b>(SERVER)Automation Failed</b>\n"
-            f"Date: {now.strftime("%B %d, %Y %I:%M %p")}\n"
-            "VPN REQUIRED TO ACCESS BO.\n"
-        )
+        # send_telegram_logs(
+        #     "<b>(SERVER)Automation Failed</b>\n"
+        #     f"Date: {now.strftime("%B %d, %Y %I:%M %p")}\n"
+        #     "VPN REQUIRED TO ACCESS BO.\n"
+        # )
         return
 
     p2p_service = BinanceP2PService()
@@ -186,17 +186,17 @@ async def run_tasks():
 
     if scrapper_response:
         logger.success("Coin automation completed successfully")
-        send_telegram_logs(
-            "<b>(SERVER)Automation Success</b>\n"
-            f"Date: {now.strftime("%B %d, %Y %I:%M %p")}\n"
-            "Coin automation completed successfully.\n"
-        )
+        # send_telegram_logs(
+        #     "<b>(SERVER)Automation Success</b>\n"
+        #     f"Date: {now.strftime("%B %d, %Y %I:%M %p")}\n"
+        #     "Coin automation completed successfully.\n"
+        # )
     else:
-        send_telegram_logs(
-            "<b>(SERVER)Automation Failed</b>\n"
-            f"Date: {now.strftime("%B %d, %Y %I:%M %p")}\n"
-            "Coin automation Failed.\n"
-        )
+        # send_telegram_logs(
+        #     "<b>(SERVER)Automation Failed</b>\n"
+        #     f"Date: {now.strftime("%B %d, %Y %I:%M %p")}\n"
+        #     "Coin automation Failed.\n"
+        # )
         logger.error("Coin automation failed")
 
 # =========================================================
@@ -206,16 +206,16 @@ async def run_tasks():
 async def scheduler_loop():
     logger = Logger()
     logger.info("Scheduler started (checks every 60 seconds)")
-    now = datetime.now()
+    # now = datetime.now()
     while True:
         try:
             await run_tasks()
         except Exception as e:
-            send_telegram_logs(
-                "<b>(SERVER)Automation Failed</b>\n"
-                f"Date: {now.strftime("%B %d, %Y %I:%M %p")}\n"
-                "Scheduler runtime error."
-            )
+            # send_telegram_logs(
+            #     "<b>(SERVER)Automation Failed</b>\n"
+            #     f"Date: {now.strftime("%B %d, %Y %I:%M %p")}\n"
+            #     "Scheduler runtime error."
+            # )
             logger.error(f"❌ Scheduler error: {e}")
 
         await asyncio.sleep(60)
