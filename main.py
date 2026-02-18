@@ -126,7 +126,7 @@ async def run_tasks():
         return
 
     logger.info("Running COIN automation")
-    BONASA_UPDATED_TODAY = True
+    BONASA_UPDATED_TODAY = False
     # USDT → USD
     binance_usdtusd = await retry_async(get_usdt_to_usd, retries=5, min_wait=2, max_wait=5, logger=logger)
 
