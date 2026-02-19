@@ -92,11 +92,11 @@ async def run_tasks():
                 BONASA_ALERT_SENT = False  # reset alert flag if updated
                 logger.success(f"(SHEET UPDATED) - Bonasa RATE: {effective_conversion_rate} updated successfully")
 
-                # send_telegram_logs(
-                #     "<b>(SERVER)Automation Success</b>\n"
-                #     f"Date: {now.strftime("%B %d, %Y %I:%M %p")}\n"
-                #     "Bonasa automation completed successfully."
-                # )
+                send_telegram_logs(
+                    "<b>(SERVER)Automation Success</b>\n"
+                    f"Date: {now.strftime("%B %d, %Y %I:%M %p")}\n"
+                    "Bonasa automation completed successfully."
+                )
                     
             else:
                 # DATA MISSING → send alert every 5 minutes
