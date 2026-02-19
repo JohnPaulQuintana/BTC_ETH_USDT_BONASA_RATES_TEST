@@ -7,7 +7,7 @@ WORKDIR /app
 # Prevent Python from buffering logs
 ENV PYTHONUNBUFFERED=1
 
-# Install system dependencies (needed for some scraping and Excel libs)
+# Install system dependencies (needed for some scraping)
 RUN apt-get update && apt-get install -y \
     build-essential \
     curl \
