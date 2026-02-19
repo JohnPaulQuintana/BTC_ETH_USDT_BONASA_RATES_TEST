@@ -6,4 +6,3 @@ requests
 gspread
 oauth2client
 nest_asyncio
-speedtest-cli
